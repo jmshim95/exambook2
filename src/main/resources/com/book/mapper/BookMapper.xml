@@ -19,7 +19,7 @@
 	INSERT INTO
 	    book(bookid, bookname, publisher, price)
 	VALUES
-	    (#{bookId}, #{bookName}, #{publisher}, #{price})
+	    (book_seq.nextval, #{bookName}, #{publisher}, #{price})
 	</insert>
 
 	<delete id="deleteBook">
