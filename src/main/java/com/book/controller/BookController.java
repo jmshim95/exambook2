@@ -2,6 +2,9 @@ package com.book.controller;
 
 import com.book.service.BookService;
 import com.book.vo.BookVO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
@@ -37,10 +40,13 @@ public class BookController {
 
     @GetMapping("/{bookId}")
     @ResponseBody
-    public ResponseEntity<BookVO> book(@PathVariable("bookId") long bookId){
+    public ResponseEntity<String> book(@PathVariable("bookId") long bookId){
 
         BookVO bookVO = bookService.selectBook(bookId);
+        
         System.out.println("bookVO = " + bookVO);
+        
+        ObjectMapper mapper = new ObjectMapper();
 
         if(bookVO == null) {
             return ResponseEntity
@@ -49,7 +55,7 @@ public class BookController {
         } else {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(bookVO);
+                    .body(bookVO.toJson());
         }
     }
 
