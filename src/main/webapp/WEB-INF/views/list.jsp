@@ -37,7 +37,7 @@
           </tr>
           </thead>
           <tbody>
-          <c:forEach items="${list }" var="item">
+          <c:forEach items="${bookList }" var="item">
             <tr class="odd gradeX">
               <td>${item.bookId }</td>
               <td>${item.BookName }</td>
