@@ -9,6 +9,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>book</title>
+
+  <jsp:include page="header.jsp"/>
 </head>
 <body>
 <div class="row">
@@ -23,7 +25,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         게시글 목록
-        <button id="regBtn" type="button" class="btn btn-xs pull-right">글 쓰기</button>
+        <button id="regBtn" type="button" class="btn btn-xs pull-right" onclick="move_page('register')">글 쓰기</button>
       </div>
       <!-- /.panel-heading -->
       <div class="panel-body">
@@ -40,32 +42,15 @@
           <c:forEach items="${bookList }" var="item">
             <tr class="odd gradeX">
               <td>${item.bookId }</td>
-              <td>${item.BookName }</td>
-              <td>${item.Publisher }</td>
-              <td>${item.Price }</td>
+              <td><a href="javascript:remove(${item.bookId})">${item.bookName }</a></td>
+              <td>${item.publisher }</td>
+              <td>${item.price }</td>
             </tr>
           </c:forEach>
 
           </tbody>
         </table>
         <!-- /.table-responsive -->
-
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModallabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-              </div>
-              <div class="modal-body">처리가 완료되었습니다.</div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-default" >Save Changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- /.modal fade -->
 
       </div>
       <!-- /.table-responsive -->
@@ -78,5 +63,34 @@
 </div>
 <!-- /.row -->
 </body>
+
+<script>
+  function move_page(url){
+    location.href = url;
+  }
+
+  function remove(book_id){
+      if(confirm('해당 자료를 삭제할까요?')){
+         // yes
+          $.ajax({
+              url: book_id,
+              type: 'DELETE',
+              success: function(result){
+                  location.href = "/";
+              },
+          });
+      } else {
+          //no
+          $.ajax({
+              url: book_id,
+              type: 'GET',
+              success: function(result){
+                  alert(JSON.parse(result))
+              },
+          });
+      }
+
+  }
+</script>
 </html>
  

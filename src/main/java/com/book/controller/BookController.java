@@ -3,6 +3,7 @@ package com.book.controller;
 import com.book.service.BookService;
 import com.book.vo.BookVO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,27 +17,30 @@ import java.util.List;
  * 삭제 및 조회는 REST 방식으로 구현 할 것
  * book 테이블은 화면참고
  */
-@RequestMapping("")
 @RequiredArgsConstructor
 @Controller
+@Log4j
 public class BookController {
 
     private final BookService bookService;
 
-    @GetMapping("/list")
+    @GetMapping("")
     public String list(Model model){
         List<BookVO> bookList = bookService.selectBookList();
+        System.out.println("bookList = " + bookList);
+        log.info(bookList);
 
         model.addAttribute("bookList", bookList);
 
         return "list";
     }
 
-    @GetMapping("/book/{bookId}")
+    @GetMapping("/{bookId}")
     @ResponseBody
     public ResponseEntity<BookVO> book(@PathVariable("bookId") long bookId){
 
         BookVO bookVO = bookService.selectBook(bookId);
+        System.out.println("bookVO = " + bookVO);
 
         if(bookVO == null) {
             return ResponseEntity
@@ -70,7 +74,7 @@ public class BookController {
 
     }
 
-    @DeleteMapping("/book/{bookId}")
+    @DeleteMapping("/{bookId}")
     public ResponseEntity<BookVO> delete(@PathVariable("bookId") long bookId){
 
         int i = bookService.deleteBook(bookId);
