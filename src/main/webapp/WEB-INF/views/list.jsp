@@ -76,7 +76,7 @@
               url: book_id,
               type: 'DELETE',
               success: function(result){
-                  location.href = "/";
+                  location.reload();
               },
           });
       } else {
@@ -85,7 +85,8 @@
               url: book_id,
               type: 'GET',
               success: function(result){
-                  alert(JSON.parse(result))
+                  alert(result);
+                  console.log(result);
               },
           });
       }
